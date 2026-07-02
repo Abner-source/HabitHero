@@ -87,17 +87,3 @@ HabitHero/
 | **Mood Analysis** | Keyword sentiment from check-in notes |
 | **Gamification** | XP points (+10/check-in), levels, 10 unlockable badges |
 | **Daily Quote** | Rotating motivational quotes |
-
-
-## 🌐 Deployment
-
-- **Backend** → Railway / Render / Fly.io (set `DATABASE_URL` env var)
-- **Frontend** → Vercel (set `VITE_API_URL` to your deployed backend URL)
-
-### ⚠️ SQLite Persistence Note (Stateless Hosting)
-By default, the backend uses a local SQLite database (`habithero.db`). If you deploy to stateless platforms (such as Render's Free Tier or Railway without persistent volumes), the database file will reset on every server restart or spin-down.
-
-To persist data in production:
-- **Persistent Disk (SQLite)**: Create and attach a **Persistent Volume** (Disk) to your backend service. Set the `DATABASE_URL` environment variable to `sqlite:////<mount-path>/habithero.db` (e.g. `sqlite:////data/habithero.db` if your volume is mounted at `/data`).
-- **PostgreSQL**: Provision a free PostgreSQL database (e.g. on Supabase or Neon) and set `DATABASE_URL` to the Postgres connection string. *(Note: If deploying with PostgreSQL, make sure to add `psycopg2-binary` to your `requirements.txt` so the backend can load the PostgreSQL driver).*
-

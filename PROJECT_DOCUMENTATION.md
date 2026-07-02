@@ -141,23 +141,3 @@ XP thresholds progress geometrically. The level calculation formula behaves as f
 * `GET /ai/quote` — Fetch a motivational quote based on recent mood.
 * `GET /ai/suggestions` — Fetch habit recommendations based on category gaps.
 
----
-
-## 🌐 Production Deployment Guide
-
-### Backend: Render
-1. Deploy as a **Web Service** pointing to the repository.
-2. Set the **Root Directory** to `backend`.
-3. Select **Python** runtime and use the Build Command: `pip install -r requirements.txt`.
-4. Set the environment variable:
-   * `PYTHON_VERSION` = `3.11.9`
-   * `CORS_ORIGINS` = `https://<your-vercel-frontend-domain>.vercel.app` (exclude trailing slashes).
-   
-*Note: Because Render's Free tier is stateless, SQLite database files will reset when the instance goes idle or redeploys.*
-
-### Frontend: Vercel
-1. Deploy as a new project pointing to the repository.
-2. Set the **Root Directory** to `frontend` and choose the **Vite** preset.
-3. Configure Environment Variables:
-   * `VITE_API_URL` = `https://<your-render-backend-domain>.onrender.com`
-4. Deploy, copy the Vercel URL, and add it to the backend `CORS_ORIGINS`.
