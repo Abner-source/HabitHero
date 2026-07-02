@@ -88,17 +88,6 @@ HabitHero/
 | **Gamification** | XP points (+10/check-in), levels, 10 unlockable badges |
 | **Daily Quote** | Rotating motivational quotes |
 
----
-
-## 🐳 Docker (PostgreSQL)
-
-```bash
-docker-compose up -d
-```
-
-Then start the frontend separately with `npm run dev`.
-
----
 
 ## 🌐 Deployment
 
