@@ -2,7 +2,7 @@
 
 A premium full-stack habit tracker with gamification, analytics, and AI-powered insights.
 
-**Tech Stack**: React + Vite · FastAPI · SQLite (local) / PostgreSQL (prod)
+**Tech Stack**: React + Vite · FastAPI · SQLite 
 
 ---
 
