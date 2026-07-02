@@ -4,7 +4,7 @@ HabitHero is a premium, full-stack habit tracking web application designed to he
 
 ---
 
-## 🏛️ System Architecture & Tech Stack
+## 🏛️ Detailed System Architecture & Python/FastAPI Implementation
 
 HabitHero is split into a decoupled frontend and backend service architecture, enabling independent deployment and clean separation of concerns.
 
@@ -16,19 +16,28 @@ graph TD
     A -->|jsPDF Compilation| E[Client-Side PDF Summary]
 ```
 
-### 1. Frontend (React + Vite)
+### 1. Backend: Python & FastAPI Framework
+The backend of HabitHero is engineered using **Python 3.11** and **FastAPI**, choosing FastAPI for its high performance, automatic OpenAPI documentation, and asynchronous capabilities.
+
+* **Asynchronous Lifespan Management (`lifespan`)**: The application uses Python's `asynccontextmanager` to control startup and shutdown operations in `main.py`. Upon server start, the lifespan hook triggers SQLAlchemy's `create_all` to automatically construct database tables and runs `seed_badges` to populate default badges if the database is uninitialized.
+* **Dependency Injection (`Depends`)**: Database connections are managed safely using FastAPI's dependency injection system. The `get_db` generator yield-pattern yields a SQLAlchemy session and guarantees it is closed under a `finally` block once the request has completed, preventing database connection pool exhaustion.
+* **Modular Router Architecture (`APIRouter`)**: The API is cleanly partitioned into modular routers registered under prefix namespaces:
+  - `/habits`: Habit registration, filters, and target-date listings.
+  - `/checkins`: Toggling check-ins, tracking history, and diary notes.
+  - `/analytics`: Aggregations of streaks, success rates, and category statistics.
+  - `/badges`: Gamified reward logic and status.
+  - `/ai`: Sentiment analysis, motivational quotes, and habit recommendation engines.
+* **Security & CORS Middleware**: Security headers and cross-origin permissions are configured via FastAPI's `CORSMiddleware`, parsing origins dynamically from environment variables to allow seamless communication between the deployed React frontend and Python backend.
+* **Pydantic Validation & Serialization (v2)**: Pydantic schemas (inheriting from `BaseModel`) validate incoming JSON request payloads against specific types and regex patterns (e.g. validating HEX color codes). The schema handles serialization from SQLAlchemy model instances using `from_attributes = True`, ensuring clean response data validation.
+* **SQLAlchemy ORM & SQLite Engine**: SQLite is utilized as the database backend. SQLAlchemy handles model mappings. The database engine is configured with `check_same_thread=False` to handle FastAPI's concurrent request workers safely.
+
+### 2. Frontend (React + Vite)
 - **Vite**: Ultra-fast build tool for modern React applications.
 - **Recharts**: Declarative charts for rendering the weekly check-in bar charts and category pie charts.
 - **Lucide React**: Clean vector icon pack.
 - **jsPDF**: Client-side PDF generation engine.
 - **Axios**: Promised-based HTTP client for consuming API endpoints.
 - **CSS3 (Vanilla)**: Structured glassmorphic stylesheet with HSL colors, responsive design layouts, and micro-animations.
-
-### 2. Backend (FastAPI)
-- **FastAPI**: Modern, high-performance web framework for Python 3.11+.
-- **SQLAlchemy ORM**: Object-Relational Mapper for SQLite databases.
-- **Pydantic v2**: Data validation and serialization schemas.
-- **Uvicorn**: High-performance ASGI web server.
 
 ---
 
@@ -140,4 +149,3 @@ XP thresholds progress geometrically. The level calculation formula behaves as f
 * `GET /badges/stats` — Fetch level, total XP, and badge count.
 * `GET /ai/quote` — Fetch a motivational quote based on recent mood.
 * `GET /ai/suggestions` — Fetch habit recommendations based on category gaps.
-
