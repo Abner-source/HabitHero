@@ -145,9 +145,12 @@ export default function AnalyticsPage() {
           doc.text(catName, margin, y);
           doc.setFont("helvetica", "normal");
           
+          // Calculate actual percentage of total habits
+          const percentage = Math.round((val / (overview?.total_habits || 1)) * 100);
+          
           // Draw progress bar
           const barWidth = 80;
-          const valWidth = (val / 100) * barWidth;
+          const valWidth = (percentage / 100) * barWidth;
           
           // Background bar
           doc.setFillColor(241, 245, 249);
@@ -156,7 +159,7 @@ export default function AnalyticsPage() {
           doc.setFillColor(...accentColor);
           doc.rect(margin + 40, y - 3, valWidth, 4, "F");
 
-          doc.text(`${val}%`, margin + 40 + barWidth + 6, y);
+          doc.text(`${percentage}%`, margin + 40 + barWidth + 6, y);
           y += 8;
         });
       } else {
