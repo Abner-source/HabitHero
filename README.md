@@ -87,3 +87,8 @@ HabitHero/
 | **Mood Analysis** | Keyword sentiment from check-in notes |
 | **Gamification** | XP points (+10/check-in), levels, 10 unlockable badges |
 | **Daily Quote** | Rotating motivational quotes |
+
+---
+
+### ⚠️ SQLite Persistence Note
+The application uses a local SQLite database (`habithero.db`) by default. If deploying to stateless or ephemeral hosting platforms (like Render's Free Tier or Heroku), the database file will reset on every server restart or spin-down. For persistent cloud deployments, attach a persistent volume (disk) or connect to a cloud database (like PostgreSQL).
